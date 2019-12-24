@@ -8,7 +8,7 @@ Mapbox 没有Flutter插件,所以就封装了一个,实现了基本的定位功�
 调用原生地图导航(iOS)
 基本功能**
 
-![mapbox.gif]('https://github.com/jzpenga/flutter_plugin_mapbox/blob/master/mapbox.gif')
+![mapbox.gif](https://github.com/jzpenga/flutter_plugin_mapbox/blob/master/mapbox.gif)
 
 
 ### Install
