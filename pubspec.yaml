@@ -1,8 +1,8 @@
 name: flutter_plugin_mapbox
 description: A new Flutter plugin.
 version: 0.0.1
-author:
-homepage:
+author:cocfident@qq.con
+homepage:https://github.com/jzpenga/flutter_plugin_mapbox.git
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

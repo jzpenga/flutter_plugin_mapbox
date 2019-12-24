@@ -20,10 +20,7 @@ class _MyAppState extends State<MyApp> {
   void onCreateMap(MapboxMapController controller){
     _mapboxMapController = controller;
     _mapboxMapController.onSymbolTapped.add(_onSymbolTaped);
-
-
   }
-
 
   void _onSymbolTaped(Symbol symbol){
 
@@ -33,8 +30,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     return MaterialApp(
       home: Scaffold(
