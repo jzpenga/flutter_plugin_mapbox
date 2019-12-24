@@ -41,9 +41,9 @@ class _MyAppState extends State<MyApp> {
             MapboxMap(
               initialCameraPosition: CameraPosition(
                 zoom: 11,
-                target: LatLng(39.911337,116.410625),
+                target: LatLng(39.90960456049752,116.3972282409668),
               ),
-              myLocationEnabled: true,
+              myLocationEnabled: false,
               symbolShowIndex: false,
               onMapCreated: onCreateMap,
             ),

@@ -19,7 +19,8 @@ Mapbox 没有Flutter插件,所以就封装了一个,实现了基本的定位功�
 ```
 ###### iOS
 iOS需要在info.plist 里面添加定位权限和mapbox的token还有显示插件的一句代码
-```<key>MGLMapboxAccessToken</key>
+```
+<key>MGLMapboxAccessToken</key>
 	<string>mapbox token</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>允许使用位置</string>

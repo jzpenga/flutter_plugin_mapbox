@@ -18,9 +18,7 @@ class Line {
   LineOptions get options => _options;
 }
 
-
 class LineOptions {
-
   const LineOptions({
     this.lineColor,
     this.lineWidth,
@@ -55,7 +53,8 @@ class LineOptions {
 
     addIfPresent('lineColor', lineColor);
     addIfPresent('lineWidth', lineWidth);
-    addIfPresent('geometry', geometry?.map((LatLng latLng) => latLng._toJson())?.toList());
+    addIfPresent('geometry',
+        geometry?.map((LatLng latLng) => latLng._toJson())?.toList());
     return json;
   }
 }

@@ -7,7 +7,6 @@
 part of flutter_mapbox_plugin;
 
 class Symbol {
-
   Symbol(this._id, this._options);
 
   final String _id;
@@ -20,10 +19,12 @@ class Symbol {
 }
 
 class SymbolOptions {
-
-  const SymbolOptions( {
+  const SymbolOptions({
     this.id,
-    this.geometry, this.title, this.desc, this.poiImage,
+    this.geometry,
+    this.title,
+    this.desc,
+    this.poiImage,
   });
 
   final int id;
@@ -32,10 +33,7 @@ class SymbolOptions {
   final String desc;
   final String poiImage;
 
-
-  static const SymbolOptions defaultOptions = SymbolOptions(
-
-  );
+  static const SymbolOptions defaultOptions = SymbolOptions();
 
   SymbolOptions copyWith(SymbolOptions changes) {
     if (changes == null) {
@@ -46,7 +44,7 @@ class SymbolOptions {
       title: changes.title ?? title,
       desc: changes.desc ?? desc,
       poiImage: changes.poiImage ?? poiImage,
-      id: changes.id??id,
+      id: changes.id ?? id,
     );
   }
 
@@ -67,5 +65,4 @@ class SymbolOptions {
 
     return json;
   }
-
 }

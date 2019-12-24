@@ -39,7 +39,10 @@ static NSString *const MapBoxAnnotationViewCellId = @"MapBoxAnnotationViewCellId
 
 /** 是否显示 大头针编号*/
 @property (nonatomic, assign) bool  isShowSymbolIndex;
-
+/** 是否显示 用户信息*/
+@property (nonatomic, assign) bool  isShowUserLocation;
+/** <#注释#>*/
+@property (nonatomic, strong)  NSArray  *customLocaArr;
 
 @end
 
@@ -62,20 +65,26 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
         _viewId = viewId;
         _args = args;
         
-        NSArray *location = [[args objectForKey:@"initialCameraPosition"] valueForKey:@"target"];
+        self.customLocaArr = [[args objectForKey:@"initialCameraPosition"] valueForKey:@"target"];
         self.zoomLevel = [[[args objectForKey:@"initialCameraPosition"] valueForKey:@"zoom"] intValue];
         self.isShowSymbolIndex =  [[[args objectForKey:@"options"] valueForKey:@"symbolShowIndex"] intValue]==1;
-        
+        self.isShowUserLocation = [[[args objectForKey:@"options"] valueForKey:@"myLocationEnabled"] intValue]==1;
         
         //设置地图的 frame 和 地图个性化样式
        _mapView = [[MGLMapView alloc] initWithFrame:_frame styleURL:[NSURL URLWithString:@"mapbox://styles/mapbox/streets-v11"]];
        _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
        //设置地图默认显示的地点和缩放等级
-       [_mapView setCenterCoordinate:CLLocationCoordinate2DMake([location.firstObject doubleValue], [location.lastObject doubleValue]) zoomLevel:self.zoomLevel animated:YES];
+     //  [_mapView setCenterCoordinate:CLLocationCoordinate2DMake([self.customLocaArr.firstObject doubleValue], [self.customLocaArr.lastObject doubleValue]) zoomLevel:self.zoomLevel animated:YES];
        //显示用户位置
-       _mapView.showsUserLocation  = [[[args objectForKey:@"options"] valueForKey:@"myLocationEnabled"] intValue]==1;
+       _mapView.showsUserLocation  = self.isShowUserLocation;
        //定位模式
-       _mapView.userTrackingMode   = MGLUserTrackingModeFollow;
+        if (self.isShowUserLocation) {
+            _mapView.userTrackingMode   = MGLUserTrackingModeFollow;
+        }else{
+            _mapView.userTrackingMode   = MGLUserTrackingModeNone;
+        }
+       
+        _mapView.zoomLevel = self.zoomLevel;
        //是否倾斜地图
        _mapView.pitchEnabled       = YES;
        //是否旋转地图
@@ -231,10 +240,26 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
     
     NSLog(@"地图加载完成");
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [_mapView setZoomLevel:self.zoomLevel animated:YES];
-    });
+    __weak typeof(self)  weakSelf = self;
     
+    if (self.isShowUserLocation) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.mapView setZoomLevel:self.zoomLevel animated:YES];
+        });
+        
+    }else{
+        
+        if (!self.customLocaArr.count) {
+            return;
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.mapView setCenterCoordinate:CLLocationCoordinate2DMake([self.customLocaArr.firstObject doubleValue], [self.customLocaArr.lastObject doubleValue]) zoomLevel:self.zoomLevel animated:YES];
+        });
+        
+    }
+    
+    
+
     
       
 }

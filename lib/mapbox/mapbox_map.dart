@@ -51,7 +51,7 @@ class _MapboxMapState extends State<MapboxMap> {
   final Completer<MapboxMapController> _controller =
       Completer<MapboxMapController>();
 
-  _MapboxMapOptions _mapboxMapOptions;
+  //  _MapboxMapOptions _mapboxMapOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _MapboxMapState extends State<MapboxMap> {
   @override
   void initState() {
     super.initState();
-    _mapboxMapOptions = _MapboxMapOptions.fromWidget(widget);
+   // _mapboxMapOptions = _MapboxMapOptions.fromWidget(widget);
   }
 
   Future<void> onPlatformViewCreated(int id) async {
