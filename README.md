@@ -7,16 +7,16 @@ Mapbox 没有Flutter插件,所以就封装了一个,实现了基本的定位功�
 划线,
 调用原生地图导航(iOS)
 基本功能**
-![](mapbox.gif)
+![mapbox.gif]('https://github.com/jzpenga/flutter_plugin_mapbox/blob/master/mapbox.gif')
 
 
-###Install
-######Android
+### Install
+###### Android
 需要添加Mapbox的token android/app/src/main/AndroidManifest.xml:
 ```<application ...
     <meta-data android:name="com.mapbox.token" android:value="YOUR_TOKEN_HERE" />
 ```
-######iOS
+###### iOS
 iOS需要在info.plist 里面添加定位权限和mapbox的token还有显示插件的一句代码
 ```<key>MGLMapboxAccessToken</key>
 	<string>mapbox token</string>
@@ -31,7 +31,7 @@ iOS需要在info.plist 里面添加定位权限和mapbox的token还有显示插�
 	</dict>
 ```
 
-#####使用
+##### 使用
 需要先定义一个MapboxMapController 用来调用地图的相关方法
 
 
