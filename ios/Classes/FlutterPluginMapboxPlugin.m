@@ -1,12 +1,12 @@
 #import "FlutterPluginMapboxPlugin.h"
+#import "MapBoxViewFactory.h"
 
 @implementation FlutterPluginMapboxPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  FlutterMethodChannel* channel = [FlutterMethodChannel
-      methodChannelWithName:@"flutter_plugin_mapbox"
-            binaryMessenger:[registrar messenger]];
-  FlutterPluginMapboxPlugin* instance = [[FlutterPluginMapboxPlugin alloc] init];
-  [registrar addMethodCallDelegate:instance channel:channel];
+  MapBoxViewFactory *mapboxFactory = [[MapBoxViewFactory alloc] initWithMessenger:registrar.messenger];
+  
+  [registrar registerViewFactory:mapboxFactory withId:@"plugins.flutter.io/mapbox_gl"];
+  
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {

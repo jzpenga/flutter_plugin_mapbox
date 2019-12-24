@@ -16,6 +16,7 @@ class MapboxMap extends StatefulWidget {
     this.myLocationEnabled = false,
     this.myLocationTrackingMode = MyLocationTrackingMode.Tracking,
     this.onMapClick,
+    this.symbolShowIndex = true,
   }) : assert(initialCameraPosition != null);
 
   final MapCreatedCallback onMapCreated;
@@ -30,12 +31,14 @@ class MapboxMap extends StatefulWidget {
   final String styleString;
 
 
- ///地图是否开启定位
+  ///地图是否开启定位
   final bool myLocationEnabled;
 
   /// 地图定位模式
   final MyLocationTrackingMode myLocationTrackingMode;
 
+  ///大头针是否显示索引数字
+  final bool symbolShowIndex;
 
   ///地图点击
   final OnMapClickCallback onMapClick;
@@ -104,6 +107,7 @@ class _MapboxMapOptions {
     this.styleString,
     this.myLocationEnabled,
     this.myLocationTrackingMode,
+    this.symbolShowIndex,
   });
 
   static _MapboxMapOptions fromWidget(MapboxMap map) {
@@ -112,6 +116,7 @@ class _MapboxMapOptions {
       styleString: map.styleString,
       myLocationEnabled: map.myLocationEnabled,
       myLocationTrackingMode: map.myLocationTrackingMode,
+      symbolShowIndex: map.symbolShowIndex,
     );
   }
 
@@ -124,7 +129,8 @@ class _MapboxMapOptions {
   final bool myLocationEnabled;
 
   final MyLocationTrackingMode myLocationTrackingMode;
-
+  ///大头针是否显示索引数字
+  final bool symbolShowIndex;
   Map<String, dynamic> toMap() {
     final Map<String, dynamic> optionsMap = <String, dynamic>{};
 
@@ -147,6 +153,7 @@ class _MapboxMapOptions {
     addIfNonNull('styleString', styleString);
     addIfNonNull('myLocationEnabled', myLocationEnabled);
     addIfNonNull('myLocationTrackingMode', myLocationTrackingMode?.index);
+    addIfNonNull('symbolShowIndex', symbolShowIndex);
     return optionsMap;
   }
 

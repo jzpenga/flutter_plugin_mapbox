@@ -49,6 +49,7 @@ class _MyAppState extends State<MyApp> {
                 target: LatLng(39.911337,116.410625),
               ),
               myLocationEnabled: true,
+              symbolShowIndex: false,
               onMapCreated: onCreateMap,
             ),
             Column(
