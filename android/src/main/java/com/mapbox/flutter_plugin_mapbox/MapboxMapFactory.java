@@ -20,13 +20,15 @@ import io.flutter.plugin.platform.PlatformViewFactory;
 public class MapboxMapFactory extends PlatformViewFactory {
 
     private final FlutterPlugin.FlutterPluginBinding mPluginRegistrar;
+    private final PluginRegistry.Registrar registrar;
     private final AtomicInteger mActivityState;
 
 
-    MapboxMapFactory(AtomicInteger state, FlutterPlugin.FlutterPluginBinding registrar) {
+    MapboxMapFactory(AtomicInteger state, FlutterPlugin.FlutterPluginBinding registrar, PluginRegistry.Registrar pluginRegistrar) {
         super(StandardMessageCodec.INSTANCE);
         this.mPluginRegistrar = registrar;
         mActivityState = state;
+        this.registrar = pluginRegistrar;
     }
 
     @Override
@@ -39,6 +41,6 @@ public class MapboxMapFactory extends PlatformViewFactory {
             CameraPosition position = Convert.toCameraPosition(params.get("initialCameraPosition"));
             mapboxMapBuilder.setInitialCameraPosition(position);
         }
-        return mapboxMapBuilder.build(id, mPluginRegistrar,mActivityState);
+        return mapboxMapBuilder.build(id, mPluginRegistrar,mActivityState,registrar);
     }
 }

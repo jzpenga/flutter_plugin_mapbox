@@ -29,9 +29,9 @@ class MapboxMapBuilder implements MapboxMapOptionsSink {
     initOption(context);
   }
 
-  MapboxMapController build(int id, FlutterPlugin.FlutterPluginBinding registrar, AtomicInteger activityState) {
+  MapboxMapController build(int id, FlutterPlugin.FlutterPluginBinding registrar, AtomicInteger activityState, PluginRegistry.Registrar pluginRegistry) {
 
-    final MapboxMapController controller = new MapboxMapController(id,context,options,registrar);
+    final MapboxMapController controller = new MapboxMapController(id,context,options,registrar, pluginRegistry);
     controller.init();
     controller.setMyLocationEnabled(myLocationEnabled);
     controller.setMyLocationTrackingMode(myLocationTrackingMode);

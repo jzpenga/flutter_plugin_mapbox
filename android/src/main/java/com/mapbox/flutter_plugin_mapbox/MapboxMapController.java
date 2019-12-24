@@ -73,6 +73,7 @@ public class MapboxMapController implements PlatformView,
     private boolean disposed = false;
     //private final int registrarActivityHashCode;
     private final FlutterPlugin.FlutterPluginBinding registrar;
+    private final PluginRegistry.Registrar pluginRegistry;
     private SymbolManager symbolManager;
     private LineManager lineManager;
 
@@ -97,14 +98,21 @@ public class MapboxMapController implements PlatformView,
             int id,
             Context context,
             MapboxMapOptions options,
-            FlutterPlugin.FlutterPluginBinding registrar) {
+            FlutterPlugin.FlutterPluginBinding registrar, PluginRegistry.Registrar pluginRegistry) {
         this.context = context;
+        this.pluginRegistry = pluginRegistry;
         Mapbox.getInstance(context, getAccessToken(context));
         mapView = new MapView(context,options);
         this.registrar = registrar;
         //this.registrarActivityHashCode = registrar.activity().hashCode();
-        final MethodChannel channel = new MethodChannel(registrar.getBinaryMessenger(), "plugins.flutter.io/mapbox_maps_"+id);
-        channel.setMethodCallHandler(this);
+        if (pluginRegistry==null){
+            final MethodChannel channel = new MethodChannel(registrar.getBinaryMessenger(), "plugins.flutter.io/mapbox_maps_"+id);
+            channel.setMethodCallHandler(this);
+        }else {
+            final MethodChannel channel = new MethodChannel(pluginRegistry.messenger(), "plugins.flutter.io/mapbox_maps_"+id);
+            channel.setMethodCallHandler(this);
+        }
+
     }
 
     private static String getAccessToken(@NonNull Context context) {
@@ -121,7 +129,11 @@ public class MapboxMapController implements PlatformView,
     }
 
     void init(){
-        ((Application) registrar.getApplicationContext()).registerActivityLifecycleCallbacks(this);
+        if (pluginRegistry==null){
+            ((Application) registrar.getApplicationContext()).registerActivityLifecycleCallbacks(this);
+        }else {
+            pluginRegistry.activity().getApplication().registerActivityLifecycleCallbacks(this);
+        }
         mapView.getMapAsync(this);
     }
 
@@ -137,7 +149,11 @@ public class MapboxMapController implements PlatformView,
         }
         disposed = true;
         mapView.onDestroy();
-        ((Application) registrar.getApplicationContext()).unregisterActivityLifecycleCallbacks(this);
+        if (pluginRegistry==null){
+            ((Application) registrar.getApplicationContext()).unregisterActivityLifecycleCallbacks(this);
+        }else {
+            pluginRegistry.activity().getApplication().unregisterActivityLifecycleCallbacks(this);
+        }
     }
 
     @Override

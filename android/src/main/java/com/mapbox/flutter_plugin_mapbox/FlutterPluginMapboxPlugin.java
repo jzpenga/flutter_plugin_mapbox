@@ -4,15 +4,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.MethodCall;
-import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** FlutterPluginMapboxPlugin */
@@ -28,13 +22,13 @@ public class FlutterPluginMapboxPlugin implements Application.ActivityLifecycleC
 
 
   /** Plugin registration. */
-//  public static void registerWith(Registrar registrar) {
-////    final FlutterPluginMapboxPlugin plugin = new FlutterPluginMapboxPlugin(registrar);
-//    final FlutterPluginMapboxPlugin plugin = new FlutterPluginMapboxPlugin();
-//    registrar.activity().getApplication().registerActivityLifecycleCallbacks(plugin);
-//
-//    registrar.platformViewRegistry().registerViewFactory("plugins.flutter.io/mapbox_gl",new MapboxMapFactory(plugin.state,registrar));
-//  }
+  public static void registerWith(Registrar registrar) {
+//    final FlutterPluginMapboxPlugin plugin = new FlutterPluginMapboxPlugin(registrar);
+    final FlutterPluginMapboxPlugin plugin = new FlutterPluginMapboxPlugin();
+    registrar.activity().getApplication().registerActivityLifecycleCallbacks(plugin);
+
+    registrar.platformViewRegistry().registerViewFactory("plugins.flutter.io/mapbox_gl",new MapboxMapFactory(plugin.state,null, registrar));
+  }
 
   @Override
   public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -99,7 +93,7 @@ public class FlutterPluginMapboxPlugin implements Application.ActivityLifecycleC
 
     ((Application) binding.getApplicationContext()).registerActivityLifecycleCallbacks(plugin);
 
-    binding.getPlatformViewRegistry().registerViewFactory("plugins.flutter.io/mapbox_gl",new MapboxMapFactory(plugin.state,binding));
+    binding.getPlatformViewRegistry().registerViewFactory("plugins.flutter.io/mapbox_gl",new MapboxMapFactory(plugin.state,binding, null));
   }
 
   @Override
