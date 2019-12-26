@@ -12,6 +12,7 @@
 #import "MapBoxAnnotationView.h"
 #import "MapSymbolModel.h"
 #import <MapKit/MapKit.h>
+#import "UIImageView+WebCache.h"
 static NSString *const MapBoxAnnotationViewCellId = @"MapBoxAnnotationViewCellId";
 @interface MapViewObject ()<MGLMapViewDelegate>
 /** channel*/
@@ -179,16 +180,17 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
            
             coords[i] = CLLocationCoordinate2DMake([point.firstObject doubleValue], [point.lastObject doubleValue]);
        }
-       
-       //初始化线
-       _blueLine = [MGLPolyline polylineWithCoordinates:coords count:model.geometry.count];
        ///地图加载完成后绘制 线段
        if ([_mapView.overlays containsObject:self.blueLine]) {//如果已经添加了该条线 那么删除重新添加
            [_mapView removeOverlay:self.blueLine];
        }
+       //初始化线
+       _blueLine = [MGLPolyline polylineWithCoordinates:coords count:model.geometry.count];
+       
        //将线添加到地图上
          [_mapView addOverlay:self.blueLine];
        //设置可见的区域
+    
         [_mapView setVisibleCoordinateBounds:self.blueLine.overlayBounds edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES completionHandler:nil];
 
     
@@ -226,6 +228,7 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
 
      [_annotationsArray addObjectsFromArray:pointsArray];
      [_mapView addAnnotations:_annotationsArray];
+   
     
 }
 
@@ -236,29 +239,30 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
 #pragma mark -- mapboxDelegate
 - (void)mapViewDidFinishLoadingMap:(MGLMapView *)mapView{
     
-    self.resultCallBack(@"");
-    
-    NSLog(@"地图加载完成");
-    
+   
     __weak typeof(self)  weakSelf = self;
     
     if (self.isShowUserLocation) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakSelf.mapView setZoomLevel:self.zoomLevel animated:YES];
-        });
+       
+        [weakSelf.mapView setZoomLevel:self.zoomLevel animated:YES];
+        
         
     }else{
         
         if (!self.customLocaArr.count) {
             return;
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakSelf.mapView setCenterCoordinate:CLLocationCoordinate2DMake([self.customLocaArr.firstObject doubleValue], [self.customLocaArr.lastObject doubleValue]) zoomLevel:self.zoomLevel animated:YES];
-        });
+       
+        [weakSelf.mapView setCenterCoordinate:CLLocationCoordinate2DMake([self.customLocaArr.firstObject doubleValue], [self.customLocaArr.lastObject doubleValue]) zoomLevel:self.zoomLevel animated:YES];
+        
         
     }
     
     
+    
+    self.resultCallBack(@"");
+       
+    NSLog(@"地图加载完成");
 
     
       
@@ -322,8 +326,7 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
         NSString *longitude = [NSString stringWithFormat:@"%f",annotation.coordinate.longitude];
         
         if ([latitude hasPrefix:[NSString stringWithFormat:@"%@",model.geometry.firstObject]]&&[longitude hasPrefix:[NSString stringWithFormat:@"%@",model.geometry.lastObject]]) {
-            NSData *imgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.poiImage]];
-            leftImageView.image = [UIImage imageWithData:imgData];
+            [leftImageView sd_setImageWithURL:[NSURL URLWithString:model.poiImage] placeholderImage:[self imageWithColor:[self colorWithHexString:@"#999999"]]];
         }
      }
    return leftImageView;
@@ -438,5 +441,16 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
     return [self colorWithHexString:color alpha:1.0f];
 }
 
+
+- (UIImage *)imageWithColor:(UIColor *)color{
+    CGRect rect = CGRectMake(0.0f,0.0f, 1.0f,1.0f);
+       UIGraphicsBeginImageContext(rect.size);
+       CGContextRef context =UIGraphicsGetCurrentContext();
+       CGContextSetFillColorWithColor(context, [color CGColor]);
+       CGContextFillRect(context, rect);
+       UIImage *image =UIGraphicsGetImageFromCurrentImageContext();
+       UIGraphicsEndImageContext();
+       return image;
+}
 
 @end
