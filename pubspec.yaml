@@ -1,6 +1,6 @@
 name: flutter_plugin_mapbox
 description: Mapbox Maps SDK inside a Flutter widget in iOS and Android applications.
-version: 0.0.5
+version: 0.0.6
 author: cocfident@qq.com
 homepage: https://github.com/jzpenga/flutter_plugin_mapbox
 

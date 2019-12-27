@@ -172,6 +172,9 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
 /// @param model 坐标model
 - (void)drwnLineActionWithModel:(MapViewLineModel *)model{
     
+    if (!model.geometry.count) {
+        return;
+    }
        //添加要划线的点
        CLLocationCoordinate2D coords[model.geometry.count];
        for (int i = 0; i<model.geometry.count; i++) {
@@ -208,6 +211,9 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
    
     [self.symbolPointsArr addObjectsFromArray:arr];
     
+    if (!arr.count) {
+        return;
+    }
        // 添加大头针
     CLLocationCoordinate2D coords[arr.count];
     NSMutableArray *pointsArray = [NSMutableArray array];
