@@ -172,6 +172,11 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
 /// @param model 坐标model
 - (void)drwnLineActionWithModel:(MapViewLineModel *)model{
     
+    ///地图加载完成后绘制 线段
+    if ([_mapView.overlays containsObject:self.blueLine]) {//如果已经添加了该条线 那么删除重新添加
+        [_mapView removeOverlay:self.blueLine];
+    }
+    
     if (!model.geometry.count) {
         return;
     }
@@ -183,10 +188,7 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
            
             coords[i] = CLLocationCoordinate2DMake([point.firstObject doubleValue], [point.lastObject doubleValue]);
        }
-       ///地图加载完成后绘制 线段
-       if ([_mapView.overlays containsObject:self.blueLine]) {//如果已经添加了该条线 那么删除重新添加
-           [_mapView removeOverlay:self.blueLine];
-       }
+       
        //初始化线
        _blueLine = [MGLPolyline polylineWithCoordinates:coords count:model.geometry.count];
        
