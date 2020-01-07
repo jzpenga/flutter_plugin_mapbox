@@ -237,6 +237,10 @@ messager:(NSObject<FlutterBinaryMessenger>*)messenger
      [_annotationsArray addObjectsFromArray:pointsArray];
      [_mapView addAnnotations:_annotationsArray];
    
+    if (_annotationsArray.count==1) {
+        MapSymbolModel *model = arr.firstObject;
+      [_mapView setCenterCoordinate:CLLocationCoordinate2DMake([model.geometry.firstObject doubleValue], [model.geometry.lastObject doubleValue]) zoomLevel:self.zoomLevel animated:YES];
+       }
     
 }
 

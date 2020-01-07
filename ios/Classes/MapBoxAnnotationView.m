@@ -37,7 +37,7 @@
            self.alpha = 1.0;
           
         }else{
-            self.alpha = 0.3;
+            self.alpha = 0.6;
         }
     }
     
@@ -55,8 +55,8 @@
     _isShowSymbolIndex = isShowSymbolIndex;
     
     if (self.isShowSymbolIndex) {
-           self.frame = CGRectMake(0, 0, 40, 40);
-           self.layer.cornerRadius = 20.f;
+           self.frame = CGRectMake(0, 0, 30, 30);
+           self.layer.cornerRadius = 15.f;
            self.clipsToBounds = YES;
             
           }else{
@@ -91,7 +91,7 @@
         _titleLbl = [[UILabel alloc] initWithFrame:self.bounds];
         _titleLbl.textAlignment = NSTextAlignmentCenter;
         _titleLbl.textColor = [UIColor whiteColor];
-        _titleLbl.font = [UIFont systemFontOfSize:18];
+        _titleLbl.font = [UIFont systemFontOfSize:16];
         
     }
     return _titleLbl;
