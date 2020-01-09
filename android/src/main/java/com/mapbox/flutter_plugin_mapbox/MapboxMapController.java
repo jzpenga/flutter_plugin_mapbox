@@ -425,7 +425,7 @@ public class MapboxMapController implements PlatformView,
                     Convert.interpretSymbolOptions(object,symbolOption);
                     ids.add(symbolOption.getId());
                 }
-                new LoadGeoJsonDataTask(MapboxMapController.this,symbolOptions).execute();
+                //new LoadGeoJsonDataTask(MapboxMapController.this,symbolOptions).execute();
                 //loadGeoJsonDataTask(symbolOptions);
                 result.success(ids);
                 break;
@@ -435,27 +435,23 @@ public class MapboxMapController implements PlatformView,
                 ArrayList<SymbolOption> symbolOptions = new ArrayList<>();
                 symbolOptions.add(symbolOption);
                 Convert.interpretSymbolOptions(call.argument("options"),symbolOption);
-                new LoadGeoJsonDataTask(MapboxMapController.this,symbolOptions).execute();
+               // new LoadGeoJsonDataTask(MapboxMapController.this,symbolOptions).execute();
                 //loadGeoJsonDataTask(symbolOptions);
                 result.success(symbolOption.getId());
                 break;
             }
             case "line#add": {
-                Log.e(TAG, "onMethodCall: line#add");
-                Object o = call.argument("options");
-                //Log.e(TAG, "onMethodCall: "+o.toString() );
-                LineOption options = new LineOption();
-                Convert.interpretLineOptions(o, options);
-
-                //LineOptions lineOptions = new LineOptions();
-                //lineOptions.withLatLngs(options.getGeometry());
-                //lineManager.create(lineOptions);
-
-                LineOptions lineOptions = new LineOptions()
-                        .withLatLngs(options.getGeometry())
-                        .withLineColor(options.getLineColor())
-                        .withLineWidth((float) options.getLineWidth());
-                lineManager.create(lineOptions);
+//                Log.e(TAG, "onMethodCall: line#add");
+//                Object o = call.argument("options");
+//                Log.e(TAG, "onMethodCall: "+o.toString() );
+//                LineOption options = new LineOption();
+//                Convert.interpretLineOptions(o, options);
+//
+//                LineOptions lineOptions = new LineOptions()
+//                        .withLatLngs(options.getGeometry())
+//                        .withLineColor(options.getLineColor())
+//                        .withLineWidth((float) options.getLineWidth());
+//                lineManager.create(lineOptions);
                 result.success(null);
                 break;
             }
